@@ -1,0 +1,25 @@
+extends layout
+block content
+    div(class="container-fluid")
+        h1= title
+    - let results=[{rabbit_color:"brown",rabbit_breed:"Flemish Giant rabbit",rabbit_price:2000},{rabbit_color:"white",rabbit_breed:"Angora rabbit",rabbit_price:5500},{rabbit_color:"black",rabbit_breed:"Havana",rabbit_price:4000}]
+        div(class="row")
+            each form,item in results
+                div(class = "col-sm-2 bg-primary" onclick=`buy(${item})`) #{form.rabbit_color}              
+                div(class = "col-sm-2 bg-primary" onclick=`buy(${item})`) #{form.rabbit_breed}                
+                div(class = "col-sm-2 bg-primary" onclick=`buy(${item})`) #{form.rabbit_price}
+                hr
+    
+    br
+    h5= 'buy'
+
+    div(class="container-fluid")
+      each rabbit,index in results
+        div(class="row", onclick=`buy(${index})`)
+          div(class="col-sm-2") <br>rabbit #{index}: #{rabbit.rabbit_color} breed:#{rabbit.rabbit_breed} price:#{rabbit.rabbit_price}
+
+    script.
+        function buy(itemNo)
+        {
+            alert(`You purchased Item ${itemNo+1}`)
+        }
