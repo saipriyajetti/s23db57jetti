@@ -10,10 +10,7 @@ exports.rabbit_list = async function(req, res) {
     res.send(`{"error": ${err}}`);
     }
     };
-// for a specific rabbit.
-exports.rabbit_detail = function(req, res) {
-res.send('NOT IMPLEMENTED: rabbit detail: ' + req.params.id);
-};
+
 // Handle rabbit create on POST.
 exports.rabbit_create_post = function(req, res) {
 res.send('NOT IMPLEMENTED: rabbit create POST');
@@ -30,8 +27,8 @@ res.send('NOT IMPLEMENTED: rabbit update PUT' + req.params.id);
 // Handle a show all view
 exports.rabbit_view_all_Page = async function(req, res) {
     try{
-    therabbit = await rabbit.find();
-    res.render('rabbit', { title: 'rabbit Search Results', results: therabbit });
+    therabbits = await rabbit.find();
+    res.render('rabbit', { title: 'rabbit Search Results', results: therabbits });
     }
     catch(err){
     res.status(500);
@@ -58,4 +55,15 @@ exports.rabbit_create_post = async function(req, res) {
     res.send(`{"error": ${err}}`);
     }
     };
-      
+
+// for a specific rabbit.
+exports.rabbit_detail = async function(req, res) {
+    console.log("detail" + req.params.id)
+    try {
+    result = await rabbit.findById( req.params.id)
+    res.send(result)
+    } catch (error) {
+    res.status(500)
+    res.send(`{"error": document for id ${req.params.id} not found`);
+    }
+    };    

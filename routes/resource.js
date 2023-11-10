@@ -18,3 +18,25 @@ router.get('/rabbits/:id', rabbit_controller.rabbit_detail);
 // GET request for list of all rabbit items.
 router.get('/rabbits', rabbit_controller.rabbit_list);
 module.exports = router;
+
+// Handle rabbit update form on PUT.
+exports.rabbit_update_put = async function(req, res) {
+console.log(`update on id ${req.params.id} with body
+${JSON.stringify(req.body)}`)
+try {
+let toUpdate = await rabbit.findById( req.params.id)
+// Do updates of properties
+if(req.body.rabbit_color)
+toUpdate.rabbit_color = req.body.rabbit_color;
+if(req.body.rabbit_brred) toUpdate.rabbit_breed = req.body.rabbit_breed;
+if(req.body.rabbit_price) toUpdate.rabbit_price = req.body.rabbit_price;
+let result = await toUpdate.save();
+console.log("Sucess " + result)
+res.send(result)
+} catch (err) {
+res.status(500)
+res.send(`{"error": ${err}: Update for id ${req.params.id}
+failed`);
+}
+};
+
