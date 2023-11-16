@@ -67,3 +67,91 @@ exports.rabbit_detail = async function(req, res) {
     res.send(`{"error": document for id ${req.params.id} not found`);
     }
     };    
+    // Handle rabbit update form on PUT.
+exports.rabbit_update_put = async function(req, res) {
+    console.log(`update on id ${req.params.id} with body
+    ${JSON.stringify(req.body)}`)
+    try {
+    let toUpdate = await rabbit.findById( req.params.id)
+    // Do updates of properties
+    if(req.body.rabbit_color)
+    toUpdate.rabbit_color = req.body.rabbit_color;
+    if(req.body.rabbit_brred) toUpdate.rabbit_breed = req.body.rabbit_breed;
+    if(req.body.rabbit_price) toUpdate.rabbit_price = req.body.rabbit_price;
+    let result = await toUpdate.save();
+    console.log("Sucess " + result)
+    res.send(result)
+    } catch (err) {
+    res.status(500)
+    res.send(`{"error": ${err}: Update for id ${req.params.id}
+    failed`);
+    }
+    };
+    // Handle rabbit delete on DELETE.
+exports.rabbit_delete = async function(req, res) {
+console.log("delete " + req.params.id)
+try {
+result = await rabbit.findByIdAndDelete( req.params.id)
+console.log("Removed " + result)
+res.send(result)
+} catch (err) {
+res.status(500)
+res.send(`{"error": Error deleting ${err}}`);
+}
+};
+// Handle a show one view with id specified by query
+exports.rabbit_view_one_Page = async function(req, res) {
+console.log("single view for id " + req.query.id)
+try{
+result = await rabbit.findById( req.query.id)
+res.render('rabbitdetail',
+{ title: 'rabbit Detail', toShow: result });
+}
+catch(err){
+res.status(500)
+res.send(`{'error': '${err}'}`);
+}
+};
+// Handle building the view for creating a rabbit.
+// No body, no in path parameter, no query.
+// Does not need to be async
+exports.rabbit_create_Page = function(req, res) {
+    console.log("create view")
+    try{
+    res.render('rabbitcreate', { title: 'rabbit Create'});
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+    };
+    // Handle building the view for updating a rabbit.
+// query provides the id
+exports.rabbit_update_Page = async function(req, res) {
+console.log("update view for item "+req.query.id)
+try{
+let result = await rabbit.findById(req.query.id)
+res.render('rabbitupdate', { title: 'rabbit Update', toShow: result });
+}
+catch(err){
+res.status(500)
+res.send(`{'error': '${err}'}`);
+}
+};
+
+//Handle a delete one view with id from query
+exports.rabbit_delete_Page = async function(req, res) {
+console.log("Delete view for id " + req.query.id)
+try{
+result = await rabbit.findById(req.query.id)
+res.render('rabbitdelete', { title: 'rabbit Delete', toShow:
+result });
+}
+catch(err){
+res.status(500)
+res.send(`{'error': '${err}'}`);
+}
+};
+
+
+    
