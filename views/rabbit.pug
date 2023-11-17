@@ -1,17 +1,25 @@
 extends layout
+
 block content
-    div(class="container-fluid")
-        h1= title
-        - let items = results;
-        - let o;
-        div(class="row")
-            each form,item in results
-                div(class = "col-sm-2 bg-primary" onclick=`buy(${item})`) #{form.rabbit_color}              
-                div(class = "col-sm-2 bg-primary" onclick=`buy(${item})`) #{form.rabbit_breed}                
-                div(class = "col-sm-2 bg-primary" onclick=`buy(${item})`) #{form.rabbit_price}
-                hr
-    script.
-        function buy(itemNo)
-        {
-            alert(`You purchased Item ${itemNo+1}`)
-        }
+  h1= title
+  - let rabbit = results
+  div(class="container-fluid")
+    div(class="row m-1")
+      each item in results
+        - let destination1 = `dispatch("/rabbit/update?id=${item._id}")`
+        - let destination2 = `dispatch("/rabbit/create")`
+        - let destination3 = `dispatch("/rabbit/detail?id=${item._id}")`
+        - let destination4 = `dispatch("/rabbit/delete?id=${item._id}")`
+        div(class="row-sm-2 m-1") 
+          | rabbit color: #{item.rabbit_color}, 
+          | rabbit breed: #{item.rabbit_breed}, 
+          | rabbit price: #{item.rabbit_price}
+          //- button.btn(class="btn-primary ml-1", onclick= destination2) Create 
+        button.btn(class="btn-primary ml-1", onclick= destination1) Update 
+          //- button.btn(class="btn-primary ml-1", onclick= destination3) Detail
+          //- button.btn(class="btn-primary ml-1", onclick= destination4) Delete
+
+  script.
+    function dispatch(path) {
+      window.location.href = path;
+    }
