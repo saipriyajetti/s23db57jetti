@@ -17,11 +17,11 @@ block content
         - let destination = `dispatch(\"/rabbit/update?id=${item._id}\")`
         - let details = `dispatch(\"/rabbit/detail?id=${item._id}\")` 
       
-        div(class="rabbitd text-black mb-3" class='col' class='rabbitd' class='rabbitd-body' class='rabbitd-text' onclick='buy('+index+')') Item color is #{item.rabbit_color}(Item breed is #{item.rabbit_breed})price is #{item.rabbit_price} 
+        div(class="rabbitd bgcolor-blue text-black mb-3" class='col' class='rabbitd' class='rabbitd-body' class='rabbitd-text' onclick='buy('+index+')') Item color is #{item.rabbit_color}(Item breed is #{item.rabbit_breed})price is #{item.rabbit_price} 
           <br><br>
-          span(class="btn btn-primary", onclick= details) Details
+          span(class="btn-success ml-1", onclick= details) Details
           <br>
-          a(class="btn btn-secondary", href="/rabbit/delete/?id="+item._id) Delete
+          a(class="btn-success ml-1", href="/rabbit/delete/?id="+item._id) Delete
           <br>
           button.btn( class="btn-success ml-1", onclick= destination) Update
 
